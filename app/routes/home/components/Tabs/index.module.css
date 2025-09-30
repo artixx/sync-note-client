@@ -1,0 +1,13 @@
+.tab {
+  > span {
+    opacity: 0.66;
+  }
+
+  &:hover > span {
+    opacity: 1;
+  }
+}
+
+.tabActive > span {
+  opacity: 1;
+}
