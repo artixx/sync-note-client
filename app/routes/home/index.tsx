@@ -53,7 +53,7 @@ const Home = () => {
       {activeTab ? (
         <Editor value={activeTab.content} onChange={onChange} />
       ) : (
-        <div className="grow flex flex-col" />
+        <div className="grow flex flex-col bg-back-1" />
       )}
     </main>
   )
