@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRequest } from '~/modules/request'
 import { createTab, updateTab, deleteTab, getTabs } from '~/api'
 import { TABS_KEY } from '~/queryKeys'
-import { toastError } from '~/modules/error'
 import type { Tab } from '~/api/types'
 
 export const useTabsGet = () => {
@@ -11,7 +10,6 @@ export const useTabsGet = () => {
 
   return useMutation({
     mutationFn: getTabs(request),
-    onError: (error) => void toastError(error),
   })
 }
 
@@ -24,7 +22,6 @@ export const useTabCreate = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: TABS_KEY })
     },
-    onError: (error) => void toastError(error),
   })
 }
 
@@ -37,7 +34,6 @@ export const useTabUpdate = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: TABS_KEY })
     },
-    onError: (error) => void toastError(error),
   })
 }
 
@@ -50,6 +46,5 @@ export const useTabDelete = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: TABS_KEY })
     },
-    onError: (error) => void toastError(error),
   })
 }
