@@ -9,6 +9,7 @@ import {
 
 import type { Route } from './+types/root'
 import './app.css'
+import { PageLoading } from '~/components/PageLoading'
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -74,4 +75,8 @@ export const ErrorBoundary = ({ error }: Route.ErrorBoundaryProps) => {
       )}
     </main>
   )
+}
+
+export const HydrateFallback = () => {
+  return <PageLoading />
 }
