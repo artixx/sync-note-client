@@ -74,6 +74,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: build/client/*
-          target: /var/www/sync-note-client/build/client
+          target: /var/www/sync-note/client
           strip_components: 2
           rm: true
