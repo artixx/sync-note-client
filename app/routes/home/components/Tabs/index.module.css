@@ -11,3 +11,29 @@
 .tabActive > span {
   opacity: 1;
 }
+
+.closeButton {
+  .editedIndicator {
+    display: none;
+  }
+}
+
+.closeButtonOutSync {
+  .editedIndicator {
+    display: block;
+  }
+
+  .closeIndicator {
+    display: none;
+  }
+
+  &:hover {
+    .editedIndicator {
+      display: none;
+    }
+
+    .closeIndicator {
+      display: block;
+    }
+  }
+}

@@ -33,17 +33,11 @@ const useTabStorage: UseTabStorage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      sync()
+      void sync()
     } else if (!isLoading) {
       setTabs((tabs) => tabs.filter((one) => isTempTab(one)))
     }
   }, [isAuthenticated, isLoading, setTabs, sync])
-
-  const authSync = useCallback(() => {
-    if (isAuthenticated) {
-      setTimeout(sync, 0)
-    }
-  }, [sync, isAuthenticated])
 
   return {
     tabs,
@@ -57,7 +51,6 @@ const useTabStorage: UseTabStorage = () => {
       setTabs((prevTabs) => {
         return [...prevTabs, newTab]
       })
-      authSync()
       return newTab
     },
     editTab: useCallback(
@@ -72,14 +65,12 @@ const useTabStorage: UseTabStorage = () => {
               : tab,
           ),
         )
-        authSync()
       },
-      [setTabs, authSync],
+      [setTabs],
     ),
     deleteTab: (tabId: Tab['id']) => {
       setDeletedIds((prev) => [...new Set([...prev, tabId])])
       setTabs((prevTabs) => prevTabs.filter((tab) => tab.id !== tabId))
-      authSync()
     },
   }
 }

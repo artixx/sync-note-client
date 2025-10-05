@@ -20,18 +20,20 @@ const queryClient = new QueryClient({
 
 const App = () => {
   return (
-    <GoogleOAuthProvider clientId={env.VITE_GOOGLE_CLIENT_ID}>
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <Outlet />
-          <Toasts />
-          <MyAd />
-        </ThemeProvider>
-      </QueryClientProvider>
+    <>
+      <GoogleOAuthProvider clientId={env.VITE_GOOGLE_CLIENT_ID}>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <Outlet />
+            <Toasts />
+          </ThemeProvider>
+        </QueryClientProvider>
 
-      {/* Для дебага */}
-      {/*<ReactQueryDevtools initialIsOpen={false} />*/}
-    </GoogleOAuthProvider>
+        {/* Для дебага */}
+        {/*<ReactQueryDevtools initialIsOpen={false} />*/}
+      </GoogleOAuthProvider>
+      <MyAd />
+    </>
   )
 }
 

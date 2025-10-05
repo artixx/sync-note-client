@@ -11,6 +11,8 @@ import { useDynamicHeight } from './hooks/useDynamicHeight'
 import { useTheme } from '~/modules/theme'
 import { toastError } from '~/modules/error'
 import { TAB_CHARACTER_LIMIT } from '~/config'
+import { keymap } from '@codemirror/view'
+import styles from './index.module.css'
 
 const disableOutline = EditorView.theme({
   '&.cm-focused': {
@@ -30,16 +32,17 @@ const characterLimit = EditorState.changeFilter.of((tr) => {
   return isInLimit
 })
 
-export const Editor: FC<{ value: string; onChange: (v: string) => void }> = ({
-  value,
-  onChange,
-}) => {
+export const Editor: FC<{
+  value: string
+  onChange: (v: string) => void
+  onSave: () => void
+}> = ({ value, onChange, onSave }) => {
   const containerRef = useRef<HTMLDivElement>(null)
 
   const onChangeDebounced = useMemo(
     () =>
       debounce(onChange, {
-        wait: 333,
+        wait: 0, // was 333 on realtime
       }),
     [onChange],
   )
@@ -48,9 +51,31 @@ export const Editor: FC<{ value: string; onChange: (v: string) => void }> = ({
 
   const { zoomKeymap, fontSize } = useFontZoom()
 
+  const saveKeymap = useMemo(
+    () =>
+      keymap.of([
+        {
+          key: 'Mod-s',
+          run: () => {
+            onSave()
+            return true
+          },
+          preventDefault: true,
+        },
+      ]),
+    [onSave],
+  )
+
   const extensions = useMemo(
-    () => [basicSetup, markdown(), zoomKeymap, disableOutline, characterLimit],
-    [zoomKeymap],
+    () => [
+      basicSetup,
+      markdown(),
+      zoomKeymap,
+      disableOutline,
+      characterLimit,
+      saveKeymap,
+    ],
+    [zoomKeymap, saveKeymap],
   )
 
   const theme = useTheme()
@@ -58,6 +83,7 @@ export const Editor: FC<{ value: string; onChange: (v: string) => void }> = ({
   return (
     <div ref={containerRef} className="grow flex flex-col">
       <CodeMirror
+        className={styles.codemirror}
         style={{ fontSize: `${fontSize}pt` }}
         value={value}
         height={`${height}px`}

@@ -4,6 +4,7 @@ import cx from 'classnames'
 import { type Tab } from '~/api/types'
 import styles from './index.module.css'
 import { TAB_LIMIT } from '~/config'
+import { useCheckTabInSync } from '../../hooks/useCheckTabInSync'
 
 export const Tabs: FC<{
   tabs: Tab[]
@@ -12,6 +13,8 @@ export const Tabs: FC<{
   onTabClose: (id: Tab['id']) => void
   onTabCreate: () => void
 }> = ({ tabs, activeTabId, onTabSelect, onTabClose, onTabCreate }) => {
+  const { checkTabInSync } = useCheckTabInSync()
+
   return (
     <div className="flex grow flex-row bg-back-2 overflow-hidden pt-1 min-h-8.5">
       {tabs.map((tab) => (
@@ -38,10 +41,21 @@ export const Tabs: FC<{
               e.stopPropagation()
               onTabClose(tab.id)
             }}
-            className="py-1 px-1 mx-1 rounded text-text-1 opacity-66 hover:opacity-100 transition-color duration-100 flex-shrink-0"
+            className={cx(
+              styles.closeButton,
+              { [styles.closeButtonOutSync]: !checkTabInSync(tab) },
+              'py-1 px-1 mx-1 rounded text-text-1 opacity-66 hover:opacity-100 transition-color duration-100 flex-shrink-0',
+            )}
           >
             <svg
-              className="w-2.5 h-2.5"
+              className={cx(styles.editedIndicator, 'w-2.5 h-2.5')}
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <circle cx="12" cy="12" r="9" />
+            </svg>
+            <svg
+              className={cx(styles.closeIndicator, 'w-2.5 h-2.5')}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

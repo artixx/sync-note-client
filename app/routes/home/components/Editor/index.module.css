@@ -1,0 +1,6 @@
+.codemirror {
+  :global .cm-foldGutter:last-child {
+    /* fix of double appearance */
+    display: none !important;
+  }
+}

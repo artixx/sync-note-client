@@ -12,4 +12,4 @@ const ensureEnv = (value: string | undefined) => {
 export const env = {
   VITE_BACKEND_URL: ensureEnv(import.meta.env.VITE_BACKEND_URL),
   VITE_GOOGLE_CLIENT_ID: ensureEnv(import.meta.env.VITE_GOOGLE_CLIENT_ID),
-}
+} as const

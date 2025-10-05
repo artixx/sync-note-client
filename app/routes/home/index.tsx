@@ -4,6 +4,9 @@ import { Editor } from './components/Editor'
 import { Tabs } from './components/Tabs'
 import { useTabLogic } from '~/routes/home/hooks/useTabLogic'
 import { Menu } from '~/routes/home/components/Menu'
+import { useStorageSync } from '~/routes/home/hooks/useTabLogic/useStorageSync'
+import { SaveButton } from '~/routes/home/components/SaveButton'
+import { useCheckTabInSync } from '~/routes/home/hooks/useCheckTabInSync'
 
 export const meta = () => {
   return [
@@ -11,6 +14,8 @@ export const meta = () => {
     { name: 'description', content: 'Welcome to Sync Note!' },
   ]
 }
+
+const emptyFunction = () => {}
 
 const Home = () => {
   const {
@@ -22,6 +27,8 @@ const Home = () => {
     activeTab,
     handleTabEdit,
   } = useTabLogic()
+  const { sync } = useStorageSync()
+  const { checkTabInSync } = useCheckTabInSync()
 
   const onChange = useCallback(
     (text: string) => {
@@ -38,9 +45,12 @@ const Home = () => {
     [handleTabEdit, activeTab],
   )
 
+  const isSaveRequired = !tabs.every(checkTabInSync)
+
   return (
     <main className="flex flex-col justify-center grow items-stretch">
       <div className="flex">
+        <SaveButton isActive={!tabs.every(checkTabInSync)} onSave={sync} />
         <Tabs
           tabs={tabs}
           activeTabId={activeTabId}
@@ -51,7 +61,11 @@ const Home = () => {
         <Menu />
       </div>
       {activeTab ? (
-        <Editor value={activeTab.content} onChange={onChange} />
+        <Editor
+          value={activeTab.content}
+          onChange={onChange}
+          onSave={isSaveRequired ? sync : emptyFunction}
+        />
       ) : (
         <div className="grow flex flex-col bg-back-1" />
       )}

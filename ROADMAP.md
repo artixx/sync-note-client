@@ -1,10 +1,15 @@
 # Sync Note Client RoadMap
 
+## Realtime sync
+- https://thom.ee/blog/crdt-vs-operational-transformation/
+- Operational Transformation (OT)
+  - ShareDB
+- Conflict-Free Replicated Data Types (CRDT)
+  - Yjs
+
 ## Changeable tabs order (drag)
 
 ## Tests
-
-## Better sync algorithm
 
 ## Websocket updates
 
